@@ -3,7 +3,9 @@ package org.example.task2;
 public class Main {
     public static void main(String[] args) {
 
+        // --- Частина з Cart і Order ---
         Cart cart = new Cart(new Item[10]);
+
         cart.add(new Item(1, "Samsung Galaxy S23", 27999));
         cart.add(new Item(2, "Lenovo IdeaPad 3", 19499));
         cart.add(new Item(3, "LG 55\" 4K Smart TV", 15999));
@@ -24,5 +26,40 @@ public class Main {
         Order order = new Order(1L, "John");
         String bill = order.formOrderBill(cart);
         System.out.println(bill);
+
+        // --- Частина для Box ---
+        Box box = new Box(2.5, 3.0, 4.0);
+        System.out.println("\nПараметри коробки:");
+        System.out.println("Площа поверхні: " + box.getSurfaceArea());
+        System.out.println("Площа бічної поверхні: " + box.getLateralSurfaceArea());
+        System.out.println("Об’єм: " + box.getVolume());
+
+        // --- Тест IntStack ---
+        System.out.println("\n--- Тест IntStack ---");
+        IntStack stack = new IntStack();
+
+        stack.push(10);
+        stack.push(20);
+        stack.push(30);
+        System.out.println("Stack після push: " + stack);
+
+        System.out.println("Peek: " + stack.peek());
+
+        System.out.println("Pop: " + stack.pop());
+        System.out.println("Pop: " + stack.pop());
+        System.out.println("Stack після pop: " + stack);
+
+        System.out.println("Size: " + stack.size());
+        System.out.println("Is empty? " + stack.isEmpty());
+
+        stack.clear();
+        System.out.println("Stack після clear: " + stack);
+        System.out.println("Is empty? " + stack.isEmpty());
+
+        try {
+            stack.pop();
+        } catch (IllegalStateException e) {
+            System.out.println("Виняток при pop з порожнього стека: " + e.getMessage());
+        }
     }
 }

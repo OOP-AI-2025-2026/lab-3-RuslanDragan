@@ -4,66 +4,65 @@ import java.util.Arrays;
 
 public class Cart {
 
-    public Item[] contents;
-    int index;
+    private Item[] contents;
+    private int index;
 
-    Cart(Item[] _contents) {
-        this.contents = _contents;
+    public Cart(Item[] contents) {
+        this.contents = contents;
+        this.index = 0;
     }
 
-    public void removeById(int itemIndex) {
-
-        if (index == 0)
-            return;
-
-        int foundItemIndex = findItemInArray(contents[itemIndex]);
-
-        if (foundItemIndex == -1)
-            return;
-
-        if (foundItemIndex == index - 1) {
-            contents[index - 1] = null;
-            index--;
-            return;
+    public void add(Item item) {
+        if (!isCartFull()) {
+            this.contents[this.index] = item;
+            this.index++;
         }
-
-        shiftArray(foundItemIndex);
     }
 
-    public void shiftArray(int itemIndex) {
-        for (int i = itemIndex; i < index - 1; i++) {
-            contents[i] = contents[i + 1];
+    public void removeById(int itemId) {
+        int foundIndex = findItemIndex(itemId);
+        if (foundIndex != -1) {
+            shiftArray(foundIndex);
         }
-        contents[index-1] = null;
-        index--;
     }
 
-    public int findItemInArray(Item item) {
-        for (int i = 0; i < index; i++) {
-            if (contents[i].id == item.id) {
+    private int findItemIndex(int itemId) {
+        for (int i = 0; i < this.index; i++) {
+            if (this.contents[i].getId() == itemId) {
                 return i;
             }
         }
-
         return -1;
     }
 
-    void add(Item item) {
-        if (isCartFull())
-            return;
-
-        contents[index] = item;
-        index++;
+    private void shiftArray(int itemIndex) {
+        for (int i = itemIndex; i < this.index - 1; i++) {
+            this.contents[i] = this.contents[i + 1];
+        }
+        this.contents[this.index - 1] = null;
+        this.index--;
     }
 
     public boolean isCartFull() {
-        return index == contents.length;
+        return this.index == this.contents.length;
     }
 
-    @Override
+    public int getItemCount() {
+        return this.index;
+    }
+
+    public Item getItemAt(int i) {
+        if (i >= 0 && i < this.index) {
+            return this.contents[i];
+        }
+        return null;
+    }
+
     public String toString() {
-        return "Cart{" +
-                "contents=" + Arrays.toString(contents) +
-                '}' + "\n";
+        StringBuilder sb = new StringBuilder("Cart contents:\n");
+        for (int i = 0; i < this.index; i++) {
+            sb.append(this.contents[i]);
+        }
+        return sb.toString();
     }
 }
